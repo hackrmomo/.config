@@ -7,7 +7,7 @@ options=(
 	border_radius=30.0
 	active_color=0xff0dc488
 	inactive_color=0xff182c2c
-	background=0x800c3d2d
+	background_color=0xb0061e16
 )
 
 borders "${options[@]}"
