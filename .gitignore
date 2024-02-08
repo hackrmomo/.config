@@ -1,0 +1,11 @@
+/containers
+/gatsby
+/iterm2
+/Microsoft\\VisualStudio Services/**/*
+/raycast
+/yarn
+/op
+/1Password
+/nvim
+
+**/.DS_Store

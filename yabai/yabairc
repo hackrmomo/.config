@@ -1,0 +1,104 @@
+#!/usr/bin/env bash
+
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
+
+# Signal hooks
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+yabai -m signal --add event=window_focused action="sketchybar --trigger window_focus"
+yabai -m signal --add event=display_added action="sleep 1 && source $HOME/.local/bin/helper && create_spaces 7"
+yabai -m signal --add event=display_removed action="sleep 1 && source $HOME/.local/bin/helper && create_spaces 7"
+yabai -m signal --add event=window_created action="sketchybar --trigger windows_on_spaces"
+yabai -m signal --add event=window_destroyed action="sketchybar --trigger windows_on_spaces"
+yabai -m signal --add event=window_created app="Code" action="source ${HOME}/.config/bin/helper && auto_stack Code"
+
+GENERAL=(
+	external_bar all:"${BAR_HEIGHT}":0
+	split_type auto
+	split_ratio 0.5
+	auto_balance on
+	insert_feedback_color 0x003399cc
+)
+
+WINDOWS=(
+	window_placement second_child
+	window_shadow float
+	window_opacity on
+	active_window_opacity 1.0
+	normal_window_opacity 0.5
+	window_animation_duration 0.15
+	window_origin_display focused
+	window_opacity_duration 0.15
+	window_animation_frame_rate 240
+)
+
+LAYOUT=(
+	layout bsp
+	top_padding 20
+	bottom_padding 10
+	left_padding 10
+	right_padding 10
+	window_gap 10
+)
+
+MOUSE=(
+	mouse_modifier ctrl
+	mouse_action1 move
+	mouse_action2 resize
+	mouse_drop_action swap
+	focus_follows_mouse autoraise
+	mouse_follows_focus off
+)
+
+# RULES
+UNMANAGED=(
+	Activity Monitor
+	Alfred
+	App Store
+	Archive Utility
+	Authy
+	Bitwarden
+	Calculator
+	Dictionary
+	FaceTime
+	# Finder
+	Numi
+	LibreOffice
+	LuLu
+	Microsoft Remote Desktop
+	Photo Booth
+	Python
+	ScanSnap
+	Screen Sharing
+	Screens
+	Software Update
+	Stats
+	Steam
+	System Information
+	System Preferences
+	System Settings
+	VLC
+	Vimac
+	iStat Menus
+	zoom.us
+	Spotify
+	Finder
+)
+
+for ((i = 1; i <= "${#UNMANAGED[@]}"; i++)); do
+	yabai -m rule --add label="unmanage_${UNMANAGED[(($i - 1))]}" app="^${UNMANAGED[(($i - 1))]}.*$" manage=off
+done
+
+# Exclude problematic apps from being managed:
+yabai -m rule --add label="Finder" app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref)" manage=off
+yabai -m rule --add label="Safari" app="^Safari$" title="^(General|(Tab|Password|Website|Extension)s|AutoFill|Se(arch|curity)|Privacy|Advance)$" manage=off
+yabai -m rule --add label="About This Mac" app="System Information" title="About This Mac" manage=off
+yabai -m rule --add label="Select file to save to" app="^Inkscape$" title="Select file to save to" manage=off
+yabai -m rule --add label="OBS" app="^OBS$" title="OBS" manage=off
+
+yabai -m config "${GENERAL[@]}"
+yabai -m config "${WINDOWS[@]}"
+yabai -m config "${LAYOUT[@]}"
+yabai -m config "${MOUSE[@]}"
+
+echo "yabai configuration loaded.."

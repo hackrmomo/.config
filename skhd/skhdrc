@@ -1,0 +1,40 @@
+# Reload yabai 
+default < ctrl + lalt + cmd - r : bash -c "yabai --restart-service"
+
+# Make window zoom to fullscreen:
+default < ctrl + lalt - return : yabai -m query --spaces --window | grep '"type":"float"' && yabai -m space --layout bsp;\
+          yabai -m query --windows --window | grep '"floating":1' && yabai -m window --toggle float;\
+          yabai -m window --toggle zoom-fullscreen;
+
+## Window Movement (shift + lalt - ...)
+# Moving windows in spaces:
+default < ctrl + lalt - left : yabai -m window --warp west || $(yabai -m window --display west && yabai -m display --focus west && yabai -m window --warp last) || yabai -m window --move rel:-10:0
+default < ctrl + lalt - down : yabai -m window --warp south || $(yabai -m window --display south && yabai -m display --focus south) || yabai -m window --move rel:0:10
+default < ctrl + lalt - up : yabai -m window --warp north || $(yabai -m window --display north && yabai -m display --focus north) || yabai -m window --move rel:0:-10
+default < ctrl + lalt - right : yabai -m window --warp east || $(yabai -m window --display east && yabai -m display --focus east && yabai -m window --warp first) || yabai -m window --move rel:10:0
+
+## Stacks (shift + lalt + ctrl - ...)
+# Add the active window to the window or stack to the {direction}: shift + ctrl - {up, right, down, right}
+default < shift + lalt + ctrl - left : yabai -m window  west --stack $(yabai -m query --windows --window | jq -r '.id');
+default < shift + lalt + ctrl - down : yabai -m window south --stack $(yabai -m query --windows --window | jq -r '.id');
+default < shift + lalt + ctrl - up : yabai -m window north --stack $(yabai -m query --windows --window | jq -r '.id');
+default < shift + lalt + ctrl - right : yabai -m window  east --stack $(yabai -m query --windows --window | jq -r '.id');
+
+# Stack Navigation: shift + ctrl - {left, right}
+default < shift + ctrl - right : yabai -m window --focus stack.next || yabai -m window --focus stack.first;
+default < shift + ctrl - left : yabai -m window --focus stack.prev || yabai -m window --focus stack.last;
+
+# Equalize size of windows: ctrl + lalt - b
+default < ctrl + lalt - b : yabai -m space --balance;
+
+# Yabai layouts
+
+# float / unfloat window and center on screen
+default < lalt - space : yabai -m window --toggle float; \
+          yabai -m window --grid 4:4:1:1:2:2;
+default < ctrl + lalt - space : yabai -m window --toggle float;\
+          yabai -m window --grid 20:20:1:1:18:18;
+
+default < ctrl + lalt - z : yabai -m space --layout bsp;
+default < ctrl + lalt - x : yabai -m space --layout float;
+default < ctrl + lalt - c : yabai -m space --layout stack;
