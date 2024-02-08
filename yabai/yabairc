@@ -25,7 +25,7 @@ WINDOWS=(
 	window_shadow float
 	window_opacity on
 	active_window_opacity 1.0
-	normal_window_opacity 0.5
+	normal_window_opacity 0.2
 	window_animation_duration 0.15
 	window_origin_display focused
 	window_opacity_duration 0.15
