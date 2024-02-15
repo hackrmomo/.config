@@ -2,7 +2,7 @@
 
 options=(
 	style=round
-	width=6.0
+	width=2
 	hidpi=off
 	blur_radius=30.0
 	active_color=0xff0dc488
