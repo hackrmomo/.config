@@ -38,3 +38,6 @@ default < ctrl + lalt - space : yabai -m window --toggle float;\
 default < ctrl + lalt - z : yabai -m space --layout bsp;
 default < ctrl + lalt - x : yabai -m space --layout float;
 default < ctrl + lalt - c : yabai -m space --layout stack;
+
+# toggle focus follows mouse
+default < ctrl + lalt - v : yabai -m config focus_follows_mouse | grep autoraise >> /dev/null && yabai -m config focus_follows_mouse off || yabai -m config focus_follows_mouse autoraise;
