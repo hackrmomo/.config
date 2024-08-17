@@ -2,12 +2,14 @@
 
 options=(
 	style=round
-	width=2
-	hidpi=off
+	width=8
+	hidpi=on
+	ax_focus=off
 	blur_radius=30.0
 	active_color=0xff0dc488
 	inactive_color=0xff182c2c
 	background_color=0xb0061e16
+	blacklist="iPhone Mirroring"
 )
 
 borders "${options[@]}"
